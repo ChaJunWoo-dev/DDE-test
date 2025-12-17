@@ -1,4 +1,3 @@
-import datetime
 import sqlite3
 
 class DBManager:
@@ -13,8 +12,8 @@ class DBManager:
                 title TEXT NOT NULL,
                 content TEXT NOT NULL,
                 author TEXT NOT NULL,
-                created_at TEXT NOT NULL,
-                updated_at TEXT NOT NULL
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
         self.conn.commit()
@@ -23,13 +22,11 @@ class DBManager:
         if not title or not content:
             raise ValueError("title or content cannot be empty")
 
-        now = datetime.datetime.now()
-
         cursor = self.conn.execute("""
-            INSERT INTO board (title, content, author, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO board (title, content, author)
+            VALUES (?, ?, ?)
         """,
-        (title, content, author, now, now)
+        (title, content, author)
         )
         self.conn.commit()
 
@@ -37,7 +34,7 @@ class DBManager:
 
     def get_post(self, post_id):
         cursor = self.conn.execute("""
-            SELECT title, content, author, created_at, updated_at
+            SELECT *
             FROM board
             WHERE id = ?
         """,
@@ -48,27 +45,31 @@ class DBManager:
 
     def get_posts(self):
         cursor = self.conn.execute("""
-            SELECT title, content, author, created_at, updated_at
+            SELECT *
             FROM board
         """)
 
         return cursor.fetchall()
 
     def update_post(self, new_title, new_content, post_id):
-        self.conn.execute("""
+        cursor = self.conn.execute("""
             UPDATE board
-            SET title = ?, content = ?
+            SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP
             WHERE id = ? 
         """,
        (new_title, new_content, post_id)
         )
         self.conn.commit()
 
+        return cursor.rowcount
+
     def delete_post(self, post_id):
-        self.conn.execute("""
+        cursor = self.conn.execute("""
             DELETE FROM board
             WHERE id = ?
         """,
         (post_id,)
         )
         self.conn.commit()
+
+        return cursor.rowcount
