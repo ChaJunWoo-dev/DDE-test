@@ -5,8 +5,11 @@ from const.constant import FONT
 
 
 class DetailPage(QWidget):
-    def __init__(self):
+    def __init__(self, stack, list_page):
         super().__init__()
+
+        self.stack = stack
+        self.list_page = list_page
         self.init_ui()
 
     def load(self, post_id):
@@ -14,6 +17,7 @@ class DetailPage(QWidget):
 
     def init_ui(self):
         self.back_btn = QPushButton("목록")
+        self.back_btn.clicked.connect(self.go_back)
         self.edit_btn = QPushButton("수정")
         self.delete_btn = QPushButton("삭제")
 
@@ -44,3 +48,6 @@ class DetailPage(QWidget):
         layout.addWidget(author)
         layout.addLayout(date_layout)
         layout.addWidget(content)
+
+    def go_back(self):
+        self.stack.setCurrentWidget(self.list_page)

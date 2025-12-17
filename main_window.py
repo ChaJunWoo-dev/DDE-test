@@ -11,7 +11,7 @@ class MainWindow(QWidget):
         self.stack = QStackedWidget()
 
         self.list_page = ListPage()
-        self.detail_page = DetailPage()
+        self.detail_page = DetailPage(self.stack, self.list_page)
 
         self.list_page.postSelected.connect(self.show_detail)
 
