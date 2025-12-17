@@ -53,3 +53,14 @@ class DBManager:
         """)
 
         return cursor.fetchall()
+
+    def update_post(self, new_title, new_content, post_id):
+        self.conn.execute("""
+            UPDATE board
+            SET title = ?, content = ?
+            WHERE id = ? 
+        """,
+       (new_title, new_content, post_id)
+        )
+        self.conn.commit()
+
