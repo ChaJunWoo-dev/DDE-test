@@ -18,3 +18,19 @@ class DBManager:
             )
         """)
         self.conn.commit()
+
+    def create_post(self, title, content, author):
+        if not title or not content:
+            raise ValueError("title or content cannot be empty")
+
+        now = datetime.datetime.now()
+
+        cursor = self.conn.execute("""
+            INSERT INTO board (title, content, author, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?)
+        """,
+        (title, content, author, now, now)
+        )
+        self.conn.commit()
+
+        return cursor.lastrowid
