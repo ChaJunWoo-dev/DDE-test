@@ -18,6 +18,7 @@ class CreatePage(QWidget):
         content_edit.setPlaceholderText("내용을 입력하세요.")
 
         self.cancel_btn = QPushButton("취소")
+        self.cancel_btn.clicked.connect(self.cancel_post)
         self.save_btn = QPushButton("저장")
 
         footer_layout = QHBoxLayout()
