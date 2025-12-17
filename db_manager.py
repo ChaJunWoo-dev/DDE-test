@@ -34,3 +34,22 @@ class DBManager:
         self.conn.commit()
 
         return cursor.lastrowid
+
+    def get_post(self, post_id):
+        cursor = self.conn.execute("""
+            SELECT title, content, author, created_at, updated_at
+            FROM board
+            WHERE id = ?
+        """,
+        (post_id,)
+        )
+
+        return cursor.fetchone()
+
+    def get_posts(self):
+        cursor = self.conn.execute("""
+            SELECT title, content, author, created_at, updated_at
+            FROM board
+        """)
+
+        return cursor.fetchall()
