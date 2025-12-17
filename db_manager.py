@@ -64,3 +64,11 @@ class DBManager:
         )
         self.conn.commit()
 
+    def delete_post(self, post_id):
+        self.conn.execute("""
+            DELETE FROM board
+            WHERE id = ?
+        """,
+        (post_id,)
+        )
+        self.conn.commit()
