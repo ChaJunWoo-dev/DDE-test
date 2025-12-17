@@ -1,3 +1,4 @@
+from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTextBrowser, QPushButton
 from PySide6.QtGui import QFont
 
@@ -5,6 +6,8 @@ from const.constant import FONT
 
 
 class DetailPage(QWidget):
+    editBtnClicked = Signal()
+
     def __init__(self, stack, list_page):
         super().__init__()
 
@@ -19,6 +22,7 @@ class DetailPage(QWidget):
         self.back_btn = QPushButton("목록")
         self.back_btn.clicked.connect(self.go_back)
         self.edit_btn = QPushButton("수정")
+        self.edit_btn.clicked.connect(self.edit_clicked)
         self.delete_btn = QPushButton("삭제")
 
         title = QLabel("제목")
@@ -51,3 +55,6 @@ class DetailPage(QWidget):
 
     def go_back(self):
         self.stack.setCurrentWidget(self.list_page)
+
+    def edit_clicked(self):
+        self.editBtnClicked.emit()
