@@ -1,8 +1,10 @@
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QPushButton, QListView, QStyledItemDelegate, QStyle
 from PySide6.QtCore import Signal
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtGui import QFont
 from PySide6.QtGui import QStandardItemModel, QStandardItem
+
+from const.constant import FONT
 
 posts = [
     ["글 제목 1", "홍길동", "2025-12-17"],
@@ -17,9 +19,6 @@ posts = [
     ["글 제목 10", "박영수", "2025-12-13"],
     ["글 제목 11", "박영수", "2025-12-13"],
 ]
-
-SELECTED_COLOR = "#4A90E2"
-FONT = "맑은 고딕"
 
 class ListPage(QWidget):
     postSelected = Signal(int)
