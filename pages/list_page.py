@@ -22,6 +22,7 @@ posts = [
 
 class ListPage(QWidget):
     postSelected = Signal(int)
+    postBtnClicked = Signal()
 
     def __init__(self):
         super().__init__()
@@ -30,6 +31,7 @@ class ListPage(QWidget):
     def init_ui(self):
         title = QLabel("DDE 게시판")
         post_btn = QPushButton("글쓰기")
+        post_btn.clicked.connect(self.create_post)
 
         header_layout = QHBoxLayout()
         header_layout.addWidget(title)
@@ -60,6 +62,10 @@ class ListPage(QWidget):
     def open_post(self, index):
         post_id = index.row()
         self.postSelected.emit(post_id)
+
+    def create_post(self):
+        self.postBtnClicked.emit()
+
 
 class PostDelegate(QStyledItemDelegate):
     def sizeHint(self, option, index):
