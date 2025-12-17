@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QLab
 
 
 class EditPage(QWidget):
-    cancelBtnClicked = Signal()
+    backBtnClicked = Signal()
 
     def __init__(self, detail_page):
         super().__init__()
@@ -19,7 +19,7 @@ class EditPage(QWidget):
         content_edit.setText("기존 내용입니다.")
 
         self.cancel_btn = QPushButton("취소")
-        self.cancel_btn.clicked.connect(self.cancelBtnClicked.emit)
+        self.cancel_btn.clicked.connect(self.backBtnClicked.emit)
         self.save_btn = QPushButton("저장")
 
         footer_layout = QHBoxLayout()
