@@ -1,6 +1,5 @@
-import sys
-from PySide6 import QtWidgets
-from PySide6.QtWidgets import QLabel, QHBoxLayout, QVBoxLayout, QPushButton, QListView, QStyledItemDelegate, QStyle
+from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QPushButton, QListView, QStyledItemDelegate, QStyle
+from PySide6.QtCore import Signal
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QFont, QColor
 from PySide6.QtGui import QStandardItemModel, QStandardItem
@@ -22,7 +21,9 @@ posts = [
 SELECTED_COLOR = "#4A90E2"
 FONT = "맑은 고딕"
 
-class MainPage(QtWidgets.QWidget):
+class ListPage(QWidget):
+    postSelected = Signal(int)
+
     def __init__(self):
         super().__init__()
         self.init_ui()
@@ -43,17 +44,23 @@ class MainPage(QtWidgets.QWidget):
             item = QStandardItem(title)
             item.setData(author, Qt.UserRole)
             item.setData(created_at, Qt.UserRole + 1)
+
             model.appendRow(item)
 
         list_view.setModel(model)
-
         list_view.setItemDelegate(PostDelegate())
         list_view.setUniformItemSizes(True)
         list_view.setEditTriggers(QListView.NoEditTriggers)
 
-        main_layout = QVBoxLayout(self)
-        main_layout.addLayout(header_layout)
-        main_layout.addWidget(list_view)
+        list_view.clicked.connect(self.open_post)
+
+        layout = QVBoxLayout(self)
+        layout.addLayout(header_layout)
+        layout.addWidget(list_view)
+
+    def open_post(self, index):
+        post_id = index.row()
+        self.postSelected.emit(post_id)
 
 class PostDelegate(QStyledItemDelegate):
     def sizeHint(self, option, index):
@@ -67,10 +74,6 @@ class PostDelegate(QStyledItemDelegate):
         date = index.data(Qt.UserRole + 1)
 
         rect = option.rect
-
-        if option.state & QStyle.State_Selected:
-            bar_rect = option.rect.adjusted(0, 0, -option.rect.width() + 4, 0)
-            painter.fillRect(bar_rect, QColor(SELECTED_COLOR))
 
         # 제목
         painter.setFont(QFont(FONT, 11, QFont.Bold))
