@@ -1,11 +1,13 @@
+from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QTextEdit, QPushButton
 
 
 class CreatePage(QWidget):
-    def __init__(self, stack, list_page):
+    cancelBtnClicked = Signal()
+
+    def __init__(self, list_page):
         super().__init__()
 
-        self.stack = stack
         self.list_page = list_page
         self.init_ui()
 
@@ -18,7 +20,7 @@ class CreatePage(QWidget):
         content_edit.setPlaceholderText("내용을 입력하세요.")
 
         self.cancel_btn = QPushButton("취소")
-        self.cancel_btn.clicked.connect(self.cancel_post)
+        self.cancel_btn.clicked.connect(self.cancelBtnClicked.emit)
         self.save_btn = QPushButton("저장")
 
         footer_layout = QHBoxLayout()
@@ -31,6 +33,3 @@ class CreatePage(QWidget):
         layout.addWidget(author_edit)
         layout.addWidget(content_edit)
         layout.addLayout(footer_layout)
-
-    def cancel_post(self):
-        self.stack.setCurrentWidget(self.list_page)

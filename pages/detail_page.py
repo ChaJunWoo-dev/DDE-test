@@ -6,12 +6,12 @@ from const.constant import FONT
 
 
 class DetailPage(QWidget):
+    backBtnClicked = Signal()
     editBtnClicked = Signal()
 
-    def __init__(self, stack, list_page):
+    def __init__(self, list_page):
         super().__init__()
 
-        self.stack = stack
         self.list_page = list_page
         self.init_ui()
 
@@ -20,9 +20,9 @@ class DetailPage(QWidget):
 
     def init_ui(self):
         self.back_btn = QPushButton("목록")
-        self.back_btn.clicked.connect(self.go_back)
+        self.back_btn.clicked.connect(self.backBtnClicked.emit)
         self.edit_btn = QPushButton("수정")
-        self.edit_btn.clicked.connect(self.edit_clicked)
+        self.edit_btn.clicked.connect(self.editBtnClicked.emit)
         self.delete_btn = QPushButton("삭제")
 
         title = QLabel("제목")
@@ -52,9 +52,3 @@ class DetailPage(QWidget):
         layout.addWidget(author)
         layout.addLayout(date_layout)
         layout.addWidget(content)
-
-    def go_back(self):
-        self.stack.setCurrentWidget(self.list_page)
-
-    def edit_clicked(self):
-        self.editBtnClicked.emit()

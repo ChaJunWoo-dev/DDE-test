@@ -13,13 +13,16 @@ class MainWindow(QWidget):
         self.stack = QStackedWidget()
 
         self.list_page = ListPage()
-        self.detail_page = DetailPage(self.stack, self.list_page)
-        self.create_page = CreatePage(self.stack, self.list_page)
-        self.edit_page = EditPage(self.stack, self.list_page)
+        self.detail_page = DetailPage(self.list_page)
+        self.create_page = CreatePage(self.list_page)
+        self.edit_page = EditPage(self.list_page)
 
         self.list_page.postSelected.connect(self.show_detail)
         self.list_page.postBtnClicked.connect(self.request_created)
+        self.detail_page.backBtnClicked.connect(self.request_back)
         self.detail_page.editBtnClicked.connect(self.request_edited)
+        self.create_page.cancelBtnClicked.connect(self.request_back)
+        self.edit_page.cancelBtnClicked.connect(self.request_back)
 
         self.stack.addWidget(self.list_page)
         self.stack.addWidget(self.detail_page)
@@ -34,6 +37,9 @@ class MainWindow(QWidget):
     def show_detail(self, post_id):
         self.detail_page.load(post_id)
         self.stack.setCurrentWidget(self.detail_page)
+
+    def request_back(self):
+        self.stack.setCurrentWidget(self.list_page)
 
     def request_created(self):
         self.stack.setCurrentWidget(self.create_page)
