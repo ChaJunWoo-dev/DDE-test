@@ -55,3 +55,9 @@ class CreatePage(QWidget):
 
         self.db.create_post(title, content, author)
         self.saveBtnClicked.emit()
+        self.clear_editor()
+
+    def clear_editor(self):
+        self.title_edit.clear()
+        self.author_edit.clear()
+        self.content_edit.clear()
