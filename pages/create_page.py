@@ -3,7 +3,8 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QTex
 
 
 class CreatePage(QWidget):
-    backBtnClicked = Signal()
+    cancelBtnClicked = Signal()
+    saveBtnClicked = Signal()
 
     def __init__(self, db):
         super().__init__()
@@ -20,7 +21,7 @@ class CreatePage(QWidget):
         self.content_edit.setPlaceholderText("내용을 입력하세요.")
 
         self.cancel_btn = QPushButton("취소")
-        self.cancel_btn.clicked.connect(self.backBtnClicked.emit)
+        self.cancel_btn.clicked.connect(self.cancelBtnClicked.emit)
         self.save_btn = QPushButton("저장")
         self.save_btn.clicked.connect(self.save_post)
 
@@ -53,7 +54,4 @@ class CreatePage(QWidget):
             return
 
         self.db.create_post(title, content, author)
-
-        # todo : 목록 페이지 이동
-        # todo : 리스트 갱신
-
+        self.saveBtnClicked.emit()
