@@ -16,14 +16,15 @@ class MainWindow(QWidget):
         self.list_page = ListPage(db)
         self.detail_page = DetailPage(db)
         self.create_page = CreatePage(self.list_page)
-        self.edit_page = EditPage(self.list_page)
+        self.edit_page = EditPage(db)
 
-        for page in [self.detail_page, self.create_page, self.edit_page]:
+        for page in [self.detail_page, self.create_page]:
             page.backBtnClicked.connect(self.show_list)
 
         self.list_page.postSelected.connect(self.show_detail)
         self.list_page.postBtnClicked.connect(self.show_create)
         self.detail_page.editBtnClicked.connect(self.show_edit)
+        self.edit_page.doneClicked.connect(self.show_detail)
 
         self.stack.addWidget(self.list_page)
         self.stack.addWidget(self.detail_page)
@@ -45,5 +46,6 @@ class MainWindow(QWidget):
     def show_create(self):
         self.stack.setCurrentWidget(self.create_page)
 
-    def show_edit(self):
+    def show_edit(self, post_id):
+        self.edit_page.load(post_id)
         self.stack.setCurrentWidget(self.edit_page)
