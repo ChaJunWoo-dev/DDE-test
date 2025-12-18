@@ -27,6 +27,7 @@ class DetailPage(QWidget):
         self.edit_btn = QPushButton("수정")
         self.edit_btn.clicked.connect(self.on_edit_clicked)
         self.delete_btn = QPushButton("삭제")
+        self.delete_btn.clicked.connect(self.on_delete_clicked)
 
         self.title = QLabel()
         self.title.setFont(QFont(FONT, 11, QFont.Bold))
@@ -58,6 +59,10 @@ class DetailPage(QWidget):
     def on_edit_clicked(self):
         if self.post:
             self.editBtnClicked.emit(self.post["id"])
+
+    def on_delete_clicked(self):
+        if self.post:
+            self.db.delete_post(self.post["id"])
 
     def update_ui(self):
         if self.post:
