@@ -73,14 +73,26 @@ class PostDelegate(QStyledItemDelegate):
         rect = option.rect
 
         # 제목
-        painter.setFont(QFont(FONT, 11, QFont.Bold))
+        title_font = QFont(FONT)
+        title_font.setPointSize(11)
+        title_font.setBold(True)
+        painter.setFont(title_font)
         painter.drawText(rect.adjusted(10, 5, -10, -25), title)
 
-        # 작성자 · 날짜
-        painter.setFont(QFont(FONT, 9))
+        #작성자, 날짜
+        meta_font = QFont(FONT)
+        meta_font.setPointSize(9)
+        meta_font.setBold(False)
+        painter.setFont(meta_font)
         painter.drawText(
-            rect.adjusted(10, 30, -10, -5),
-            f"{author} · {date}"
+            rect.adjusted(10, 30, 0, -5),  # 왼쪽 여백만
+            Qt.AlignLeft | Qt.AlignVCenter,
+            author
+        )
+        painter.drawText(
+            rect.adjusted(0, 30, -10, -5),  # 오른쪽 여백만
+            Qt.AlignRight | Qt.AlignVCenter,
+            date
         )
 
         painter.restore()
