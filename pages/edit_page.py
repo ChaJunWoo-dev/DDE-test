@@ -1,4 +1,4 @@
-from PySide6.QtCore import Signal, Qt
+from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QLabel, QTextEdit, QPushButton
 
 
@@ -25,6 +25,7 @@ class EditPage(QWidget):
         self.cancel_btn = QPushButton("취소")
         self.cancel_btn.clicked.connect(self.backBtnClicked.emit)
         self.save_btn = QPushButton("저장")
+        self.save_btn.clicked.connect(self.on_save_clicked)
 
         footer_layout = QHBoxLayout()
         footer_layout.addStretch()
@@ -36,6 +37,12 @@ class EditPage(QWidget):
         layout.addWidget(self.author)
         layout.addWidget(self.content_edit)
         layout.addLayout(footer_layout)
+
+    def on_save_clicked(self):
+        new_title = self.title_edit.text()
+        new_content =  self.content_edit.toPlainText()
+
+        self.db.update_post(new_title, new_content, self.post["id"])
 
     def update_ui(self):
         if self.post:
