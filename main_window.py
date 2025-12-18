@@ -18,12 +18,13 @@ class MainWindow(QWidget):
         self.create_page = CreatePage(self.list_page)
         self.edit_page = EditPage(db)
 
-        for page in [self.detail_page, self.create_page, self.edit_page]:
+        for page in [self.detail_page, self.create_page]:
             page.backBtnClicked.connect(self.show_list)
 
         self.list_page.postSelected.connect(self.show_detail)
         self.list_page.postBtnClicked.connect(self.show_create)
         self.detail_page.editBtnClicked.connect(self.show_edit)
+        self.edit_page.doneClicked.connect(self.show_detail)
 
         self.stack.addWidget(self.list_page)
         self.stack.addWidget(self.detail_page)

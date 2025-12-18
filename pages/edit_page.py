@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QLab
 
 
 class EditPage(QWidget):
-    backBtnClicked = Signal()
+    doneClicked = Signal(int)
 
     def __init__(self, db):
         super().__init__()
@@ -23,7 +23,7 @@ class EditPage(QWidget):
         self.content_edit = QTextEdit()
 
         self.cancel_btn = QPushButton("취소")
-        self.cancel_btn.clicked.connect(self.backBtnClicked.emit)
+        self.cancel_btn.clicked.connect(self.on_back_page)
         self.save_btn = QPushButton("저장")
         self.save_btn.clicked.connect(self.on_save_clicked)
 
@@ -43,6 +43,11 @@ class EditPage(QWidget):
         new_content =  self.content_edit.toPlainText()
 
         self.db.update_post(new_title, new_content, self.post["id"])
+        self.on_back_page()
+
+    def on_back_page(self):
+        if self.post:
+            self.doneClicked.emit(self.post["id"])
 
     def update_ui(self):
         if self.post:
