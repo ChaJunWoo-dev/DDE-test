@@ -16,7 +16,7 @@ class MainWindow(QWidget):
         self.list_page = ListPage(db)
         self.detail_page = DetailPage(db)
         self.create_page = CreatePage(self.list_page)
-        self.edit_page = EditPage(self.list_page)
+        self.edit_page = EditPage(db)
 
         for page in [self.detail_page, self.create_page, self.edit_page]:
             page.backBtnClicked.connect(self.show_list)
@@ -45,5 +45,6 @@ class MainWindow(QWidget):
     def show_create(self):
         self.stack.setCurrentWidget(self.create_page)
 
-    def show_edit(self):
+    def show_edit(self, post_id):
+        self.edit_page.load(post_id)
         self.stack.setCurrentWidget(self.edit_page)
