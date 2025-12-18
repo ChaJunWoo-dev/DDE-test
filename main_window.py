@@ -7,14 +7,15 @@ from pages.list_page import ListPage
 
 
 class MainWindow(QWidget):
-    def __init__(self):
+    def __init__(self, db):
         super().__init__()
 
+        self.db = db
         self.stack = QStackedWidget()
 
-        self.list_page = ListPage()
+        self.list_page = ListPage(db)
         self.detail_page = DetailPage(self.list_page)
-        self.create_page = CreatePage(self.list_page)
+        self.create_page = CreatePage(self.list_page, db)
         self.edit_page = EditPage(self.list_page)
 
         for page in [self.detail_page, self.create_page, self.edit_page]:
