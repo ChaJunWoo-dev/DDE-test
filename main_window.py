@@ -25,6 +25,7 @@ class MainWindow(QWidget):
         self.list_page.postBtnClicked.connect(self.show_create)
         self.detail_page.editBtnClicked.connect(self.show_edit)
         self.edit_page.doneClicked.connect(self.show_detail)
+        self.edit_page.postChanged.connect(self.update_post_list)
 
         self.stack.addWidget(self.list_page)
         self.stack.addWidget(self.detail_page)
@@ -49,3 +50,6 @@ class MainWindow(QWidget):
     def show_edit(self, post_id):
         self.edit_page.load(post_id)
         self.stack.setCurrentWidget(self.edit_page)
+
+    def update_post_list(self):
+        self.list_page.refresh_list()

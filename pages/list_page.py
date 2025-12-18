@@ -16,7 +16,10 @@ class ListPage(QWidget):
         super().__init__()
 
         self.db = db
-        self.posts = self.db.get_posts()
+        self.list_view = QListView()
+        self.model = QStandardItemModel()
+        self.list_view.setModel(self.model)
+        self.refresh_list()
         self.init_ui()
 
     def init_ui(self):
@@ -29,27 +32,14 @@ class ListPage(QWidget):
         header_layout.addStretch()
         header_layout.addWidget(post_btn)
 
-        list_view = QListView()
-        model = QStandardItemModel()
-
-        for row in self.posts:
-            item = QStandardItem(row["title"])
-            item.setData(row["id"], Qt.UserRole)
-            item.setData(row["author"], Qt.UserRole + 1)
-            item.setData(date_converter(row["created_at"]), Qt.UserRole + 2)
-
-            model.appendRow(item)
-
-        list_view.setModel(model)
-        list_view.setItemDelegate(PostDelegate())
-        list_view.setUniformItemSizes(True)
-        list_view.setEditTriggers(QListView.NoEditTriggers)
-
-        list_view.clicked.connect(self.open_post)
+        self.list_view.setItemDelegate(PostDelegate())
+        self.list_view.setUniformItemSizes(True)
+        self.list_view.setEditTriggers(QListView.NoEditTriggers)
+        self.list_view.clicked.connect(self.open_post)
 
         layout = QVBoxLayout(self)
         layout.addLayout(header_layout)
-        layout.addWidget(list_view)
+        layout.addWidget(self.list_view)
 
     def open_post(self, index):
         post_id = index.data(Qt.UserRole)
@@ -57,6 +47,19 @@ class ListPage(QWidget):
 
     def create_post(self):
         self.postBtnClicked.emit()
+
+    def refresh_list(self):
+        posts = self.db.get_posts()
+        self.model.clear()
+        self.posts = self.db.get_posts()
+
+        for row in posts:
+            item = QStandardItem(row["title"])
+            item.setData(row["id"], Qt.UserRole)
+            item.setData(row["author"], Qt.UserRole + 1)
+            item.setData(date_converter(row["created_at"]), Qt.UserRole + 2)
+
+            self.model.appendRow(item)
 
 
 class PostDelegate(QStyledItemDelegate):

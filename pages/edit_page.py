@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QLab
 
 
 class EditPage(QWidget):
+    postChanged = Signal()
     doneClicked = Signal(int)
 
     def __init__(self, db):
@@ -43,6 +44,7 @@ class EditPage(QWidget):
         new_content =  self.content_edit.toPlainText()
 
         self.db.update_post(new_title, new_content, self.post["id"])
+        self.postChanged.emit()
         self.on_back_page()
 
     def on_back_page(self):
