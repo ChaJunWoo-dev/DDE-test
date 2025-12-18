@@ -25,6 +25,7 @@ class MainWindow(QWidget):
         self.list_page.postBtnClicked.connect(self.show_create)
         self.detail_page.editBtnClicked.connect(self.show_edit)
         self.detail_page.postDeleted.connect(self.update_post_list)
+        self.detail_page.postDeleted.connect(self.show_list)
         self.edit_page.doneClicked.connect(self.show_detail)
         self.edit_page.postChanged.connect(self.update_post_list)
 
