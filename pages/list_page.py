@@ -17,7 +17,6 @@ class ListPage(QWidget):
 
         self.db = db
         self.posts = self.db.get_posts()
-        print(self.posts)
         self.init_ui()
 
     def init_ui(self):
@@ -53,7 +52,7 @@ class ListPage(QWidget):
         layout.addWidget(list_view)
 
     def open_post(self, index):
-        post_id = index.row()
+        post_id = index.data(Qt.UserRole)
         self.postSelected.emit(post_id)
 
     def create_post(self):

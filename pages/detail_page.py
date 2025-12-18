@@ -9,14 +9,16 @@ class DetailPage(QWidget):
     backBtnClicked = Signal()
     editBtnClicked = Signal()
 
-    def __init__(self, list_page):
+    def __init__(self, db):
         super().__init__()
 
-        self.list_page = list_page
+        self.db = db
+        self.post = None
         self.init_ui()
 
     def load(self, post_id):
-        print("글 로딩:", post_id)
+        self.post = self.db.get_post(post_id)
+        self.update_ui()
 
     def init_ui(self):
         self.back_btn = QPushButton("목록")
@@ -25,16 +27,15 @@ class DetailPage(QWidget):
         self.edit_btn.clicked.connect(self.editBtnClicked.emit)
         self.delete_btn = QPushButton("삭제")
 
-        title = QLabel("제목")
-        title.setFont(QFont(FONT, 11, QFont.Bold))
-        author = QLabel("작성자")
-        date = QLabel("작성일")
-        date.setStyleSheet("color: #777;")
-        updated_date = QLabel("수정일") # 수정한 경우 표시
-        updated_date.setStyleSheet("color: #777;")
-        content = QTextBrowser()
-        content.setAcceptRichText(True)
-        content.setText("내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.")
+        self.title = QLabel()
+        self.title.setFont(QFont(FONT, 11, QFont.Bold))
+        self.author = QLabel()
+        self.date = QLabel()
+        self.date.setStyleSheet("color: #777;")
+        self.updated_date = QLabel()
+        self.updated_date.setStyleSheet("color: #777;")
+        self.content = QTextBrowser()
+        self.content.setAcceptRichText(True)
 
         header_layout = QHBoxLayout()
         header_layout.addWidget(self.back_btn)
@@ -43,12 +44,22 @@ class DetailPage(QWidget):
         header_layout.addWidget(self.delete_btn)
 
         date_layout = QHBoxLayout()
-        date_layout.addWidget(date)
-        date_layout.addWidget(updated_date)
+        date_layout.addWidget(self.date)
+        date_layout.addWidget(self.updated_date)
 
         layout = QVBoxLayout(self)
         layout.addLayout(header_layout)
-        layout.addWidget(title)
-        layout.addWidget(author)
+        layout.addWidget(self.title)
+        layout.addWidget(self.author)
         layout.addLayout(date_layout)
-        layout.addWidget(content)
+        layout.addWidget(self.content)
+
+    def update_ui(self):
+        if self.post:
+            self.title.setText(self.post["title"])
+            self.author.setText(self.post["author"])
+            self.date.setText(self.post["created_at"])
+            self.content.setText(self.post["content"])
+
+            if self.post["created_at"] != self.post["updated_at"]:
+                self.updated_date.setText(self.post["updated_at"])

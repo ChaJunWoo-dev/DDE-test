@@ -42,7 +42,9 @@ class DBManager:
         (post_id,)
         )
 
-        return cursor.fetchone()
+        row = cursor.fetchone()
+
+        return dict(row)
 
     def get_posts(self):
         cursor = self.conn.execute("""

@@ -14,8 +14,8 @@ class MainWindow(QWidget):
         self.stack = QStackedWidget()
 
         self.list_page = ListPage(db)
-        self.detail_page = DetailPage(self.list_page)
-        self.create_page = CreatePage(self.list_page, db)
+        self.detail_page = DetailPage(db)
+        self.create_page = CreatePage(self.list_page)
         self.edit_page = EditPage(self.list_page)
 
         for page in [self.detail_page, self.create_page, self.edit_page]:
