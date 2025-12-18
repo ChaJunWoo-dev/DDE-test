@@ -1,5 +1,5 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTextBrowser, QPushButton
+from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTextBrowser, QPushButton, QMessageBox
 from PySide6.QtGui import QFont
 
 from utils.date_converter import date_converter
@@ -57,12 +57,23 @@ class DetailPage(QWidget):
         layout.addWidget(self.content)
 
     def on_edit_clicked(self):
-        if self.post:
-            self.editBtnClicked.emit(self.post["id"])
+        if not self.post:
+            return
+
+        self.editBtnClicked.emit(self.post["id"])
 
     def on_delete_clicked(self):
-        if self.post:
+        if not self.post:
+            return
+
+        reply = QMessageBox.question(self, '삭제 확인', '정말 삭제하시겠습니까?',
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
             self.db.delete_post(self.post["id"])
+
+        # todo list 갱신
+        # todo list페이지로 이동
 
     def update_ui(self):
         if self.post:
