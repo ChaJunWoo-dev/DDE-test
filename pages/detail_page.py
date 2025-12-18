@@ -2,6 +2,7 @@ from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTextBrowser, QPushButton
 from PySide6.QtGui import QFont
 
+from utils.date_converter import date_converter
 from const.constant import FONT
 
 
@@ -62,8 +63,8 @@ class DetailPage(QWidget):
         if self.post:
             self.title.setText(self.post["title"])
             self.author.setText(self.post["author"])
-            self.date.setText(self.post["created_at"])
+            self.date.setText(date_converter(self.post["created_at"]))
             self.content.setText(self.post["content"])
 
-            if self.post["created_at"] != self.post["updated_at"]:
-                self.updated_date.setText(self.post["updated_at"])
+            if self.post["updated_at"] is not None:
+                self.updated_date.setText(date_converter(self.post["updated_at"]))

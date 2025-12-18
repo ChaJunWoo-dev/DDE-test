@@ -14,7 +14,7 @@ class DBManager:
                 content TEXT NOT NULL,
                 author TEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                updated_at TIMESTAMP DEFAULT NULL
             )
         """)
         self.conn.commit()
