@@ -7,7 +7,7 @@ from const.constant import FONT
 
 class DetailPage(QWidget):
     backBtnClicked = Signal()
-    editBtnClicked = Signal()
+    editBtnClicked = Signal(int)
 
     def __init__(self, db):
         super().__init__()
@@ -24,7 +24,7 @@ class DetailPage(QWidget):
         self.back_btn = QPushButton("목록")
         self.back_btn.clicked.connect(self.backBtnClicked.emit)
         self.edit_btn = QPushButton("수정")
-        self.edit_btn.clicked.connect(self.editBtnClicked.emit)
+        self.edit_btn.clicked.connect(self.on_edit_clicked)
         self.delete_btn = QPushButton("삭제")
 
         self.title = QLabel()
@@ -53,6 +53,10 @@ class DetailPage(QWidget):
         layout.addWidget(self.author)
         layout.addLayout(date_layout)
         layout.addWidget(self.content)
+
+    def on_edit_clicked(self):
+        if self.post:
+            self.editBtnClicked.emit(self.post["id"])
 
     def update_ui(self):
         if self.post:
