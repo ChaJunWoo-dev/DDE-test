@@ -15,7 +15,7 @@ class MainWindow(QWidget):
 
         self.list_page = ListPage(db)
         self.detail_page = DetailPage(db)
-        self.create_page = CreatePage(self.list_page)
+        self.create_page = CreatePage(db)
         self.edit_page = EditPage(db)
 
         for page in [self.detail_page, self.create_page]:
