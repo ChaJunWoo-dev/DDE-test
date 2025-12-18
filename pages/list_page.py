@@ -5,27 +5,19 @@ from PySide6.QtGui import QFont
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 
 from const.constant import FONT
+from utils.date_converter import date_converter
 
-posts = [
-    ["글 제목 1", "홍길동", "2025-12-17"],
-    ["글 제목 2", "김철수", "2025-12-16"],
-    ["글 제목 3", "이영희", "2025-12-15"],
-    ["글 제목 4", "박영수", "2025-12-14"],
-    ["글 제목 5", "홍길동", "2025-12-14"],
-    ["글 제목 6", "김철수", "2025-12-13"],
-    ["글 제목 7", "이영희", "2025-12-13"],
-    ["글 제목 8", "박영수", "2025-12-13"],
-    ["글 제목 9", "박영수", "2025-12-13"],
-    ["글 제목 10", "박영수", "2025-12-13"],
-    ["글 제목 11", "박영수", "2025-12-13"],
-]
 
 class ListPage(QWidget):
     postSelected = Signal(int)
     postBtnClicked = Signal()
 
-    def __init__(self):
+    def __init__(self, db):
         super().__init__()
+
+        self.db = db
+        self.posts = self.db.get_posts()
+        print(self.posts)
         self.init_ui()
 
     def init_ui(self):
@@ -41,10 +33,11 @@ class ListPage(QWidget):
         list_view = QListView()
         model = QStandardItemModel()
 
-        for title, author, created_at in posts:
-            item = QStandardItem(title)
-            item.setData(author, Qt.UserRole)
-            item.setData(created_at, Qt.UserRole + 1)
+        for row in self.posts:
+            item = QStandardItem(row["title"])
+            item.setData(row["id"], Qt.UserRole)
+            item.setData(row["author"], Qt.UserRole + 1)
+            item.setData(date_converter(row["created_at"]), Qt.UserRole + 2)
 
             model.appendRow(item)
 
@@ -75,20 +68,32 @@ class PostDelegate(QStyledItemDelegate):
         painter.save()
 
         title = index.data(Qt.DisplayRole)
-        author = index.data(Qt.UserRole)
-        date = index.data(Qt.UserRole + 1)
+        author = index.data(Qt.UserRole + 1)
+        date = index.data(Qt.UserRole + 2)
 
         rect = option.rect
 
         # 제목
-        painter.setFont(QFont(FONT, 11, QFont.Bold))
+        title_font = QFont(FONT)
+        title_font.setPointSize(11)
+        title_font.setBold(True)
+        painter.setFont(title_font)
         painter.drawText(rect.adjusted(10, 5, -10, -25), title)
 
-        # 작성자 · 날짜
-        painter.setFont(QFont(FONT, 9))
+        #작성자, 날짜
+        meta_font = QFont(FONT)
+        meta_font.setPointSize(9)
+        meta_font.setBold(False)
+        painter.setFont(meta_font)
         painter.drawText(
-            rect.adjusted(10, 30, -10, -5),
-            f"{author} · {date}"
+            rect.adjusted(10, 30, 0, -5),  # 왼쪽 여백만
+            Qt.AlignLeft | Qt.AlignVCenter,
+            author
+        )
+        painter.drawText(
+            rect.adjusted(0, 30, -10, -5),  # 오른쪽 여백만
+            Qt.AlignRight | Qt.AlignVCenter,
+            date
         )
 
         painter.restore()
