@@ -46,7 +46,7 @@ class DBManager:
 
     def get_posts(self):
         cursor = self.conn.execute("""
-            SELECT title, author, created_at
+            SELECT id, title, author, created_at
             FROM board
             ORDER BY created_at DESC
         """)

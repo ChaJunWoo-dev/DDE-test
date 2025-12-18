@@ -35,8 +35,9 @@ class ListPage(QWidget):
 
         for row in self.posts:
             item = QStandardItem(row["title"])
-            item.setData(row["author"], Qt.UserRole)
-            item.setData(date_converter(row["created_at"]), Qt.UserRole + 1)
+            item.setData(row["id"], Qt.UserRole)
+            item.setData(row["author"], Qt.UserRole + 1)
+            item.setData(date_converter(row["created_at"]), Qt.UserRole + 2)
 
             model.appendRow(item)
 
@@ -67,8 +68,8 @@ class PostDelegate(QStyledItemDelegate):
         painter.save()
 
         title = index.data(Qt.DisplayRole)
-        author = index.data(Qt.UserRole)
-        date = index.data(Qt.UserRole + 1)
+        author = index.data(Qt.UserRole + 1)
+        date = index.data(Qt.UserRole + 2)
 
         rect = option.rect
 
