@@ -9,6 +9,7 @@ from const.constant import FONT
 class DetailPage(QWidget):
     backBtnClicked = Signal()
     editBtnClicked = Signal(int)
+    postDeleted = Signal(int)
 
     def __init__(self, db):
         super().__init__()
@@ -71,8 +72,8 @@ class DetailPage(QWidget):
 
         if reply == QMessageBox.Yes:
             self.db.delete_post(self.post["id"])
+            self.postDeleted.emit(self.post["id"])
 
-        # todo list 갱신
         # todo list페이지로 이동
 
     def update_ui(self):
