@@ -1,5 +1,5 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QTextEdit, QPushButton
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QTextEdit, QPushButton, QMessageBox
 
 
 class CreatePage(QWidget):
@@ -40,8 +40,20 @@ class CreatePage(QWidget):
         content = self.content_edit.toPlainText()
         author = self.author_edit.text()
 
-        if not title.strip() or not content.strip() or not author.strip():
+        if not title.strip():
+            QMessageBox.warning(self, "오류", "제목을 입력해주세요.")
+            return
+
+        if not author.strip():
+            QMessageBox.warning(self, "오류", "작성자를 입력해주세요.")
+            return
+
+        if not content.strip():
+            QMessageBox.warning(self, "오류", "내용을 입력해주세요.")
             return
 
         self.db.create_post(title, content, author)
+
+        # todo : 목록 페이지 이동
+        # todo : 리스트 갱신
 
