@@ -3,6 +3,7 @@ import sqlite3
 class DBManager:
     def __init__(self):
         self.conn = sqlite3.connect("board.db")
+        self.conn.row_factory = sqlite3.Row
         self._create_table()
 
     def _create_table(self):
@@ -45,11 +46,18 @@ class DBManager:
 
     def get_posts(self):
         cursor = self.conn.execute("""
-            SELECT *
+            SELECT title, author, created_at
             FROM board
+            ORDER BY created_at DESC
         """)
 
-        return cursor.fetchall()
+        rows = cursor.fetchall()
+        datas = []
+
+        for row in rows:
+            datas.append(dict(row))
+
+        return datas
 
     def update_post(self, new_title, new_content, post_id):
         cursor = self.conn.execute("""
@@ -73,3 +81,8 @@ class DBManager:
         self.conn.commit()
 
         return cursor.rowcount
+
+    def close(self):
+        if self.conn:
+            self.conn.close()
+            print(self.conn)

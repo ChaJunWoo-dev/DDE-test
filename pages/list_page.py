@@ -5,27 +5,19 @@ from PySide6.QtGui import QFont
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 
 from const.constant import FONT
+from utils.date_converter import date_converter
 
-posts = [
-    ["글 제목 1", "홍길동", "2025-12-17"],
-    ["글 제목 2", "김철수", "2025-12-16"],
-    ["글 제목 3", "이영희", "2025-12-15"],
-    ["글 제목 4", "박영수", "2025-12-14"],
-    ["글 제목 5", "홍길동", "2025-12-14"],
-    ["글 제목 6", "김철수", "2025-12-13"],
-    ["글 제목 7", "이영희", "2025-12-13"],
-    ["글 제목 8", "박영수", "2025-12-13"],
-    ["글 제목 9", "박영수", "2025-12-13"],
-    ["글 제목 10", "박영수", "2025-12-13"],
-    ["글 제목 11", "박영수", "2025-12-13"],
-]
 
 class ListPage(QWidget):
     postSelected = Signal(int)
     postBtnClicked = Signal()
 
-    def __init__(self):
+    def __init__(self, db):
         super().__init__()
+
+        self.db = db
+        self.posts = self.db.get_posts()
+        print(self.posts)
         self.init_ui()
 
     def init_ui(self):
@@ -41,10 +33,10 @@ class ListPage(QWidget):
         list_view = QListView()
         model = QStandardItemModel()
 
-        for title, author, created_at in posts:
-            item = QStandardItem(title)
-            item.setData(author, Qt.UserRole)
-            item.setData(created_at, Qt.UserRole + 1)
+        for row in self.posts:
+            item = QStandardItem(row["title"])
+            item.setData(row["author"], Qt.UserRole)
+            item.setData(date_converter(row["created_at"]), Qt.UserRole + 1)
 
             model.appendRow(item)
 
