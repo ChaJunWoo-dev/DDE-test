@@ -1,6 +1,8 @@
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QTextEdit, QPushButton, QMessageBox
 
+from utils.validator import validate_post_input
+
 
 class CreatePage(QWidget):
     cancelBtnClicked = Signal()
@@ -41,16 +43,9 @@ class CreatePage(QWidget):
         content = self.content_edit.toPlainText()
         author = self.author_edit.text()
 
-        if not title.strip():
-            QMessageBox.warning(self, "오류", "제목을 입력해주세요.")
-            return
-
-        if not author.strip():
-            QMessageBox.warning(self, "오류", "작성자를 입력해주세요.")
-            return
-
-        if not content.strip():
-            QMessageBox.warning(self, "오류", "내용을 입력해주세요.")
+        error_message = validate_post_input(title, content, author)
+        if error_message:
+            QMessageBox.warning(self, "오류", error_message)
             return
 
         post_id = self.db.create_post(title, content, author)
