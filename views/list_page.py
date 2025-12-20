@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QPushButton, QTableView
 from PySide6.QtCore import Signal
-from PySide6.QtCore import Qt
 
 from models.post_table_model import PostTableModel
 
@@ -36,8 +35,10 @@ class ListPage(QWidget):
         layout.addWidget(self.table_view)
 
     def open_post(self, index):
-        post_id = self.data(Qt.UserRole)
-        self.postSelected.emit(post_id)
+        row = index.row()
+        post = self.model.posts[row]
+
+        self.postSelected.emit(post.id)
 
     def create_post(self):
         self.postBtnClicked.emit()

@@ -61,7 +61,7 @@ class DetailPage(QWidget):
         if not self.post:
             return
 
-        self.editBtnClicked.emit(self.post["id"])
+        self.editBtnClicked.emit(self.post.id)
 
     def on_delete_clicked(self):
         if not self.post:
@@ -71,17 +71,15 @@ class DetailPage(QWidget):
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
-            self.db.delete_post(self.post["id"])
-            self.postDeleted.emit(self.post["id"])
-
-        # todo list페이지로 이동
+            self.db.delete_post(self.post.id)
+            self.postDeleted.emit(self.post.id)
 
     def update_ui(self):
         if self.post:
-            self.title.setText(self.post["title"])
-            self.author.setText(self.post["author"])
-            self.date.setText(date_converter(self.post["created_at"]))
-            self.content.setText(self.post["content"])
+            self.title.setText(self.post.title)
+            self.author.setText(self.post.author)
+            self.date.setText(date_converter(self.post.created_at))
+            self.content.setText(self.post.content)
 
-            if self.post["updated_at"] is not None:
-                self.updated_date.setText(date_converter(self.post["updated_at"]))
+            if self.post.updated_at is not None:
+                self.updated_date.setText(date_converter(self.post.updated_at))

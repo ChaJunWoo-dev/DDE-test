@@ -62,5 +62,4 @@ class PostTableModel(QAbstractTableModel):
     def refresh(self, new_posts):
         self.beginResetModel()
         self.posts = new_posts
-        print(new_posts)
         self.endResetModel()

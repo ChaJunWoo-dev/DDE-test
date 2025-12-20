@@ -58,4 +58,4 @@ class MainWindow(QWidget):
         self.stack.setCurrentWidget(self.edit_page)
 
     def update_post_list(self):
-        self.list_page.refresh_list()
+        self.list_page.set_posts()
