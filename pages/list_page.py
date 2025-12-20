@@ -51,7 +51,6 @@ class ListPage(QWidget):
     def refresh_list(self):
         posts = self.db.get_posts()
         self.model.clear()
-        self.posts = self.db.get_posts()
 
         for row in posts:
             item = QStandardItem(row["title"])
