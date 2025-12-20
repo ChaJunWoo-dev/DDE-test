@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QPushButton, QTableView
+from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QPushButton, QTableView, QHeaderView
 from PySide6.QtCore import Signal
 
 from models.post_table_model import PostTableModel
@@ -27,6 +27,14 @@ class ListPage(QWidget):
         header_layout.addWidget(title)
         header_layout.addStretch()
         header_layout.addWidget(post_btn)
+
+        self.table_view.verticalHeader().setVisible(False)
+        self.table_view.setSelectionBehavior(QTableView.SelectionBehavior.SelectRows)
+        self.table_view.setSelectionMode(QTableView.SelectionMode.SingleSelection)
+        self.table_view.setShowGrid(False)
+
+        header = self.table_view.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
 
         self.table_view.clicked.connect(self.open_post)
 
