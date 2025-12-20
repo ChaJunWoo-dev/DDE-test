@@ -1,5 +1,7 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QLabel, QTextEdit, QPushButton
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QLabel, QTextEdit, QPushButton, QMessageBox
+
+from utils.validator import validate_post_input
 
 
 class EditPage(QWidget):
@@ -42,6 +44,11 @@ class EditPage(QWidget):
     def on_save_clicked(self):
         new_title = self.title_edit.text()
         new_content =  self.content_edit.toPlainText()
+
+        error_message = validate_post_input(new_title, new_content)
+        if error_message:
+            QMessageBox.warning(self, "오류", error_message)
+            return
 
         self.db.update_post(new_title, new_content, self.post.id)
         self.postChanged.emit()
