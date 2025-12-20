@@ -1,6 +1,6 @@
 import sqlite3
 
-from models.Post import Post
+from models.post import Post
 
 
 class DBManager:
@@ -76,7 +76,7 @@ class DBManager:
         return posts
 
     def update_post(self, new_title, new_content, post_id):
-        cursor = self.conn.execute("""
+        self.conn.execute("""
             UPDATE board
             SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP
             WHERE id = ? 
@@ -85,10 +85,8 @@ class DBManager:
         )
         self.conn.commit()
 
-        return cursor.rowcount
-
     def delete_post(self, post_id):
-        cursor = self.conn.execute("""
+        self.conn.execute("""
             DELETE FROM board
             WHERE id = ?
         """,
@@ -96,9 +94,6 @@ class DBManager:
         )
         self.conn.commit()
 
-        return cursor.rowcount
-
     def close(self):
         if self.conn:
             self.conn.close()
-            print(self.conn)
