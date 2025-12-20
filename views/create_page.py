@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QTex
 
 class CreatePage(QWidget):
     cancelBtnClicked = Signal()
-    saveBtnClicked = Signal()
+    saveBtnClicked = Signal(int)
 
     def __init__(self, db):
         super().__init__()
@@ -53,8 +53,9 @@ class CreatePage(QWidget):
             QMessageBox.warning(self, "오류", "내용을 입력해주세요.")
             return
 
-        self.db.create_post(title, content, author)
-        self.saveBtnClicked.emit()
+        post_id = self.db.create_post(title, content, author)
+
+        self.saveBtnClicked.emit(post_id)
         self.clear_editor()
 
     def clear_editor(self):

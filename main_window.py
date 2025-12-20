@@ -30,7 +30,7 @@ class MainWindow(QWidget):
         self.edit_page.doneClicked.connect(self.show_detail)
 
         self.create_page.saveBtnClicked.connect(self.update_post_list)
-        self.create_page.saveBtnClicked.connect(self.show_list)
+        self.create_page.saveBtnClicked.connect(self.show_detail)
         self.create_page.cancelBtnClicked.connect(self.show_list)
 
         self.stack.addWidget(self.list_page)
