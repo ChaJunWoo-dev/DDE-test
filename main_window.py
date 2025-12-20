@@ -1,9 +1,9 @@
 from PySide6.QtWidgets import QWidget, QStackedWidget, QVBoxLayout
 
-from pages.create_page import CreatePage
-from pages.detail_page import DetailPage
-from pages.edit_page import EditPage
-from pages.list_page import ListPage
+from views.create_page import CreatePage
+from views.detail_page import DetailPage
+from views.edit_page import EditPage
+from views.list_page import ListPage
 
 
 class MainWindow(QWidget):
@@ -58,4 +58,4 @@ class MainWindow(QWidget):
         self.stack.setCurrentWidget(self.edit_page)
 
     def update_post_list(self):
-        self.list_page.refresh_list()
+        self.list_page.set_posts()

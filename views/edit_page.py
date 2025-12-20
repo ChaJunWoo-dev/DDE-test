@@ -43,16 +43,16 @@ class EditPage(QWidget):
         new_title = self.title_edit.text()
         new_content =  self.content_edit.toPlainText()
 
-        self.db.update_post(new_title, new_content, self.post["id"])
+        self.db.update_post(new_title, new_content, self.post.id)
         self.postChanged.emit()
         self.on_back_page()
 
     def on_back_page(self):
         if self.post:
-            self.doneClicked.emit(self.post["id"])
+            self.doneClicked.emit(self.post.id)
 
     def update_ui(self):
         if self.post:
-            self.title_edit.setText(self.post["title"])
-            self.author.setText(self.post["author"])
-            self.content_edit.setText(self.post["content"])
+            self.title_edit.setText(self.post.title)
+            self.author.setText(self.post.author)
+            self.content_edit.setText(self.post.content)
