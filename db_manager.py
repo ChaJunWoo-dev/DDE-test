@@ -47,12 +47,13 @@ class DBManager:
         row = cursor.fetchone()
 
         return Post(
-            id=row[0],
-            title=row[1],
-            author=row[2],
-            created_at=row[3]
+            id = row[0],
+            title = row[1],
+            content = row[2],
+            author = row[3],
+            created_at = row[4],
+            updated_at = row[5]
         )
-
 
     def get_posts(self):
         cursor = self.conn.execute("""
