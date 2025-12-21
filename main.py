@@ -3,8 +3,8 @@ import sys
 from PySide6 import QtWidgets
 
 from const.constant import APP_SIZE
-from db_manager import DBManager
-from main_window import MainWindow
+from db.db_manager import DBManager
+from windows.main_window import MainWindow
 
 if __name__ == "__main__":
     db = DBManager()

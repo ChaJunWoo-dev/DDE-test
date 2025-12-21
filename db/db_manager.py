@@ -5,7 +5,7 @@ from models.post import Post
 
 class DBManager:
     def __init__(self):
-        self.conn = sqlite3.connect("board.db")
+        self.conn = sqlite3.connect("../board.db")
         self._create_table()
 
     def _create_table(self):

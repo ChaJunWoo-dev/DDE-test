@@ -1,4 +1,4 @@
-from db_manager import DBManager
+from db.db_manager import DBManager
 
 def insert_test_data():
     db = DBManager()
