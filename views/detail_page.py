@@ -1,9 +1,10 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTextBrowser, QPushButton, QMessageBox
 from PySide6.QtGui import QFont
+from PySide6.QtWidgets import (QHBoxLayout, QLabel, QMessageBox, QPushButton,
+                               QTextBrowser, QVBoxLayout, QWidget)
 
-from utils.date_converter import date_converter
 from const.constant import FONT
+from utils.date_converter import date_converter
 
 
 class DetailPage(QWidget):

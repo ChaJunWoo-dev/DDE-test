@@ -1,5 +1,5 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QLineEdit, QMessageBox
+from PySide6.QtWidgets import QHBoxLayout, QLineEdit, QMessageBox, QVBoxLayout
 
 from utils.validator import validate_post_input
 from views.base_form_page import BaseFormPage

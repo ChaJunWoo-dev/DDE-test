@@ -1,6 +1,6 @@
-from abc import abstractmethod, ABCMeta
+from abc import ABCMeta, abstractmethod
 
-from PySide6.QtWidgets import QLineEdit, QTextEdit, QPushButton, QWidget
+from PySide6.QtWidgets import QLineEdit, QPushButton, QTextEdit, QWidget
 
 
 class QABCMeta(type(QWidget), ABCMeta):

@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QStackedWidget, QVBoxLayout
+from PySide6.QtWidgets import QStackedWidget, QVBoxLayout, QWidget
 
 from views.create_page import CreatePage
 from views.detail_page import DetailPage

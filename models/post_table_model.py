@@ -4,6 +4,7 @@ from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 
 from utils.date_converter import date_converter
 
+
 class PostTableModel(QAbstractTableModel):
     def __init__(self):
         super().__init__()
