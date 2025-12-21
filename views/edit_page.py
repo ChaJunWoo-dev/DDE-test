@@ -1,34 +1,32 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QLabel, QTextEdit, QPushButton, QMessageBox
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QLabel, QMessageBox
 
 from utils.validator import validate_post_input
+from views.base_form_page import BaseFormPage
 
 
-class EditPage(QWidget):
-    postChanged = Signal()
-    doneClicked = Signal(int)
+class EditPage(BaseFormPage):
+    cancelBtnClicked = Signal(int)
+    saveBtnClicked = Signal(int)
 
     def __init__(self, db):
-        super().__init__()
+        super().__init__(db)
 
-        self.db = db
         self.post = None
-        self.init_ui()
 
     def load(self, post_id):
         self.post = self.db.get_post(post_id)
-        self.update_ui()
+        self.set_init_data()
 
-    def init_ui(self):
-        self.title_edit = QLineEdit()
+    def set_init_data(self):
+        if self.post:
+            self.title_edit.setText(self.post.title)
+            self.author.setText(self.post.author)
+            self.content_edit.setText(self.post.content)
+
+    def init_specific_ui(self):
         self.author = QLabel()
         self.author.setStyleSheet("padding-left: 3px")
-        self.content_edit = QTextEdit()
-
-        self.cancel_btn = QPushButton("취소")
-        self.cancel_btn.clicked.connect(self.on_back_page)
-        self.save_btn = QPushButton("저장")
-        self.save_btn.clicked.connect(self.on_save_clicked)
 
         footer_layout = QHBoxLayout()
         footer_layout.addStretch()
@@ -41,9 +39,13 @@ class EditPage(QWidget):
         layout.addWidget(self.content_edit)
         layout.addLayout(footer_layout)
 
-    def on_save_clicked(self):
+    def on_cancel(self):
+        if self.post:
+            self.cancelBtnClicked.emit(self.post.id)
+
+    def on_save(self):
         new_title = self.title_edit.text()
-        new_content =  self.content_edit.toPlainText()
+        new_content = self.content_edit.toPlainText()
 
         error_message = validate_post_input(new_title, new_content)
         if error_message:
@@ -51,15 +53,4 @@ class EditPage(QWidget):
             return
 
         self.db.update_post(new_title, new_content, self.post.id)
-        self.postChanged.emit()
-        self.on_back_page()
-
-    def on_back_page(self):
-        if self.post:
-            self.doneClicked.emit(self.post.id)
-
-    def update_ui(self):
-        if self.post:
-            self.title_edit.setText(self.post.title)
-            self.author.setText(self.post.author)
-            self.content_edit.setText(self.post.content)
+        self.saveBtnClicked.emit(self.post.id)
