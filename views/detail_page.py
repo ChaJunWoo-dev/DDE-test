@@ -3,7 +3,7 @@ from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (QHBoxLayout, QLabel, QMessageBox, QPushButton,
                                QTextBrowser, QVBoxLayout, QWidget)
 
-from const.constant import FONT
+from const.constant import FONT, Message
 from utils.date_converter import date_converter
 
 
@@ -84,7 +84,7 @@ class DetailPage(QWidget):
         if not self.post:
             return
 
-        reply = QMessageBox.question(self, '삭제 확인', '정말 삭제하시겠습니까?',
+        reply = QMessageBox.question(self, Message.CONFIRM, Message.DELETE_CONFIRM,
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:

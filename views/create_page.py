@@ -1,6 +1,7 @@
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QHBoxLayout, QLineEdit, QMessageBox, QVBoxLayout
 
+from const.constant import Message
 from utils.validator import validate_post_input
 from views.base_form_page import BaseFormPage
 
@@ -15,9 +16,9 @@ class CreatePage(BaseFormPage):
     def init_specific_ui(self):
         self.author_edit = QLineEdit()
 
-        self.author_edit.setPlaceholderText("작성자명을 입력하세요")
-        self.title_edit.setPlaceholderText("제목을 입력하세요")
-        self.content_edit.setPlaceholderText("내용을 입력하세요")
+        self.author_edit.setPlaceholderText(Message.AUTHOR_REQUIRED)
+        self.title_edit.setPlaceholderText(Message.TITLE_REQUIRED)
+        self.content_edit.setPlaceholderText(Message.CONTENT_REQUIRED)
 
         footer_layout = QHBoxLayout()
         footer_layout.addStretch()
@@ -41,7 +42,7 @@ class CreatePage(BaseFormPage):
 
         error_message = validate_post_input(title, content, author)
         if error_message:
-            QMessageBox.warning(self, "오류", error_message)
+            QMessageBox.warning(self, Message.ERROR, error_message)
             return
 
         post_id = self.db.create_post(title, content, author)

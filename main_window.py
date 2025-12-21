@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QMessageBox, QStackedWidget, QVBoxLayout, QWidget
 
+from const.constant import Message
 from views.create_page import CreatePage
 from views.detail_page import DetailPage
 from views.edit_page import EditPage
@@ -53,7 +54,7 @@ class MainWindow(QWidget):
 
     def show_edit(self, post_id):
         if not self.edit_page.load(post_id):
-            QMessageBox.warning(self, "오류", "게시글을 찾을 수 없습니다.")
+            QMessageBox.warning(self, Message.ERROR, Message.POST_NOT_FOUND)
             self.show_list()
             return
 
@@ -61,7 +62,7 @@ class MainWindow(QWidget):
 
     def show_detail(self, post_id):
         if not self.detail_page.load(post_id):
-            QMessageBox.warning(self, "오류", "게시글을 찾을 수 없습니다.")
+            QMessageBox.warning(self, Message.ERROR, Message.POST_NOT_FOUND)
             self.show_list()
             return
 

@@ -1,6 +1,7 @@
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QMessageBox, QVBoxLayout
 
+from const.constant import Message
 from utils.validator import validate_post_input
 from views.base_form_page import BaseFormPage
 
@@ -53,7 +54,7 @@ class EditPage(BaseFormPage):
 
         error_message = validate_post_input(new_title, new_content)
         if error_message:
-            QMessageBox.warning(self, "오류", error_message)
+            QMessageBox.warning(self, Message.ERROR, error_message)
             return
 
         self.db.update_post(new_title, new_content, self.post.id)

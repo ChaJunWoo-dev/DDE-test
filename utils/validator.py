@@ -1,11 +1,14 @@
+from const.constant import Message
+
+
 def validate_post_input(title, content, author = None):
     if not title.strip():
-        return "제목을 입력해주세요."
+        return Message.TITLE_REQUIRED
 
     if author is not None and not author.strip():
-        return "작성자를 입력해주세요."
+        return Message.AUTHOR_REQUIRED
 
     if not content.strip():
-        return "내용을 입력해주세요."
+        return Message.CONTENT_REQUIRED
 
     return None
