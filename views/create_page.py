@@ -1,5 +1,5 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QLineEdit, QMessageBox, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QLineEdit, QMessageBox
 
 from utils.validator import validate_post_input
 from views.base_form_page import BaseFormPage
@@ -32,6 +32,7 @@ class CreatePage(BaseFormPage):
 
     def on_cancel(self):
         self.cancelBtnClicked.emit()
+        self.clear_editor()
 
     def on_save(self):
         title = self.title_edit.text()
