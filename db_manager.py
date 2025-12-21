@@ -46,6 +46,9 @@ class DBManager:
 
         row = cursor.fetchone()
 
+        if row is None:
+            return None
+
         return Post(
             id = row[0],
             title = row[1],

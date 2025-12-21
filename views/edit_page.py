@@ -8,6 +8,7 @@ from views.base_form_page import BaseFormPage
 class EditPage(BaseFormPage):
     cancelBtnClicked = Signal(int)
     saveBtnClicked = Signal(int)
+    loadFailed = Signal()
 
     def __init__(self, db):
         super().__init__(db)
@@ -16,7 +17,10 @@ class EditPage(BaseFormPage):
 
     def load(self, post_id):
         self.post = self.db.get_post(post_id)
-        self.set_init_data()
+        if self.post:
+            self.set_init_data()
+
+        return self.post
 
     def set_init_data(self):
         if self.post:

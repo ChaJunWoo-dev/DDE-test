@@ -21,7 +21,10 @@ class DetailPage(QWidget):
 
     def load(self, post_id):
         self.post = self.db.get_post(post_id)
-        self.set_init_data()
+        if self.post:
+            self.set_init_data()
+
+        return self.post
 
     def init_ui(self):
         self.back_btn = QPushButton("목록")
