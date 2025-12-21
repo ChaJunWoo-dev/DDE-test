@@ -1,31 +1,23 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QTextEdit, QPushButton, QMessageBox
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QLineEdit, QMessageBox, QWidget
 
 from utils.validator import validate_post_input
+from views.base_form_page import BaseFormPage
 
 
-class CreatePage(QWidget):
+class CreatePage(BaseFormPage):
     cancelBtnClicked = Signal()
     saveBtnClicked = Signal(int)
 
     def __init__(self, db):
-        super().__init__()
+        super().__init__(db)
 
-        self.db = db
-        self.init_ui()
-
-    def init_ui(self):
-        self.title_edit = QLineEdit()
-        self.title_edit.setPlaceholderText("제목을 입력하세요")
+    def init_specific_ui(self):
         self.author_edit = QLineEdit()
-        self.author_edit.setPlaceholderText("작성자명을 입력하세요")
-        self.content_edit = QTextEdit()
-        self.content_edit.setPlaceholderText("내용을 입력하세요.")
 
-        self.cancel_btn = QPushButton("취소")
-        self.cancel_btn.clicked.connect(self.cancelBtnClicked.emit)
-        self.save_btn = QPushButton("저장")
-        self.save_btn.clicked.connect(self.save_post)
+        self.author_edit.setPlaceholderText("작성자명을 입력하세요")
+        self.title_edit.setPlaceholderText("제목을 입력하세요")
+        self.content_edit.setPlaceholderText("내용을 입력하세요")
 
         footer_layout = QHBoxLayout()
         footer_layout.addStretch()
@@ -38,7 +30,10 @@ class CreatePage(QWidget):
         layout.addWidget(self.content_edit)
         layout.addLayout(footer_layout)
 
-    def save_post(self):
+    def on_cancel(self):
+        self.cancelBtnClicked.emit()
+
+    def on_save(self):
         title = self.title_edit.text()
         content = self.content_edit.toPlainText()
         author = self.author_edit.text()
