@@ -11,7 +11,6 @@ class MainWindow(QWidget):
     def __init__(self, db):
         super().__init__()
 
-        self.db = db
         self.stack = QStackedWidget()
 
         self.list_page = ListPage(db)

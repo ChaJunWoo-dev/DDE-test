@@ -20,33 +20,33 @@ class ListPage(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        title = QLabel("DDE 게시판")
-        post_btn = QPushButton("글쓰기")
-        post_btn.clicked.connect(self.create_post)
+        app_title_label = QLabel("DDE 게시판")
+        create_btn = QPushButton("글쓰기")
+        create_btn.clicked.connect(self.on_create_clicked)
 
         header_layout = QHBoxLayout()
-        header_layout.addWidget(title)
+        header_layout.addWidget(app_title_label)
         header_layout.addStretch()
-        header_layout.addWidget(post_btn)
+        header_layout.addWidget(create_btn)
 
         self.table_view.setShowGrid(False)
 
-        header = self.table_view.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        table_header = self.table_view.horizontalHeader()
+        table_header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
 
-        self.table_view.clicked.connect(self.open_post)
+        self.table_view.clicked.connect(self.on_cell_clicked)
 
         layout = QVBoxLayout(self)
         layout.addLayout(header_layout)
         layout.addWidget(self.table_view)
 
-    def open_post(self, index):
+    def on_cell_clicked(self, index):
         row = index.row()
         post = self.model.posts[row]
 
         self.postSelected.emit(post.id)
 
-    def create_post(self):
+    def on_create_clicked(self):
         self.postBtnClicked.emit()
 
     def set_posts(self):

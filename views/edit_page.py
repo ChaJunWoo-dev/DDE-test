@@ -26,12 +26,12 @@ class EditPage(BaseFormPage):
     def set_init_data(self):
         if self.post:
             self.title_edit.setText(self.post.title)
-            self.author.setText(self.post.author)
+            self.author_label.setText(self.post.author)
             self.content_edit.setText(self.post.content)
 
     def init_specific_ui(self):
-        self.author = QLabel()
-        self.author.setStyleSheet("padding-left: 3px")
+        self.author_label = QLabel()
+        self.author_label.setStyleSheet("padding-left: 3px")
 
         footer_layout = QHBoxLayout()
         footer_layout.addStretch()
@@ -40,7 +40,7 @@ class EditPage(BaseFormPage):
 
         layout = QVBoxLayout(self)
         layout.addWidget(self.title_edit)
-        layout.addWidget(self.author)
+        layout.addWidget(self.author_label)
         layout.addWidget(self.content_edit)
         layout.addLayout(footer_layout)
 

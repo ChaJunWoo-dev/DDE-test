@@ -27,52 +27,52 @@ class DetailPage(QWidget):
         return self.post
 
     def init_ui(self):
-        self.back_btn = QPushButton("목록")
-        self.back_btn.clicked.connect(self.backBtnClicked.emit)
-        self.edit_btn = QPushButton("수정")
-        self.edit_btn.clicked.connect(self.on_edit_clicked)
-        self.delete_btn = QPushButton("삭제")
-        self.delete_btn.clicked.connect(self.on_delete_clicked)
+        back_btn = QPushButton("목록")
+        back_btn.clicked.connect(self.backBtnClicked.emit)
+        edit_btn = QPushButton("수정")
+        edit_btn.clicked.connect(self.on_edit_clicked)
+        delete_btn = QPushButton("삭제")
+        delete_btn.clicked.connect(self.on_delete_clicked)
 
-        self.title = QLabel()
-        self.title.setFont(QFont(FONT, 11, QFont.Bold))
-        self.author = QLabel()
-        self.date = QLabel()
-        self.date.setStyleSheet("color: #777;")
-        self.updated_date = QLabel()
-        self.updated_date.setStyleSheet("color: #777;")
-        self.content = QTextBrowser()
-        self.content.setAcceptRichText(True)
+        self.title_label = QLabel()
+        self.title_label.setFont(QFont(FONT, 11, QFont.Bold))
+        self.author_label = QLabel()
+        self.date_label = QLabel()
+        self.date_label.setStyleSheet("color: #777;")
+        self.updated_date_label = QLabel()
+        self.updated_date_label.setStyleSheet("color: #777;")
+        self.content_browser = QTextBrowser()
+        self.content_browser.setAcceptRichText(True)
 
         header_layout = QHBoxLayout()
-        header_layout.addWidget(self.back_btn)
+        header_layout.addWidget(back_btn)
         header_layout.addStretch()
-        header_layout.addWidget(self.edit_btn)
-        header_layout.addWidget(self.delete_btn)
+        header_layout.addWidget(edit_btn)
+        header_layout.addWidget(delete_btn)
 
         date_layout = QHBoxLayout()
-        date_layout.addWidget(self.date)
-        date_layout.addWidget(self.updated_date)
+        date_layout.addWidget(self.date_label)
+        date_layout.addWidget(self.updated_date_label)
 
         layout = QVBoxLayout(self)
         layout.addLayout(header_layout)
-        layout.addWidget(self.title)
-        layout.addWidget(self.author)
+        layout.addWidget(self.title_label)
+        layout.addWidget(self.author_label)
         layout.addLayout(date_layout)
-        layout.addWidget(self.content)
+        layout.addWidget(self.content_browser)
 
     def set_init_data(self):
         if self.post:
-            self.title.setText(self.post.title)
-            self.author.setText(self.post.author)
-            self.date.setText(f"작성일: {date_converter(self.post.created_at)}")
-            self.content.setText(self.post.content)
+            self.title_label.setText(self.post.title)
+            self.author_label.setText(self.post.author)
+            self.date_label.setText(f"작성일: {date_converter(self.post.created_at)}")
+            self.content_browser.setText(self.post.content)
 
             if self.post.updated_at is not None:
-                self.updated_date.setText(f"수정일: {date_converter(self.post.updated_at)}")
-                self.updated_date.show()
+                self.updated_date_label.setText(f"수정일: {date_converter(self.post.updated_at)}")
+                self.updated_date_label.show()
             else:
-                self.updated_date.hide()
+                self.updated_date_label.hide()
 
     def on_edit_clicked(self):
         if not self.post:
