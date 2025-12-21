@@ -1,5 +1,6 @@
-from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QPushButton, QTableView, QHeaderView
 from PySide6.QtCore import Signal
+from PySide6.QtWidgets import (QHBoxLayout, QHeaderView, QLabel, QPushButton,
+                               QTableView, QVBoxLayout, QWidget)
 
 from models.post_table_model import PostTableModel
 

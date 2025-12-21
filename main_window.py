@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QStackedWidget, QVBoxLayout
+from PySide6.QtWidgets import QStackedWidget, QVBoxLayout, QWidget
 
 from views.create_page import CreatePage
 from views.detail_page import DetailPage
@@ -26,8 +26,9 @@ class MainWindow(QWidget):
         self.detail_page.postDeleted.connect(self.show_list)
         self.detail_page.backBtnClicked.connect(self.show_list)
 
-        self.edit_page.postChanged.connect(self.update_post_list)
-        self.edit_page.doneClicked.connect(self.show_detail)
+        self.edit_page.saveBtnClicked.connect(self.update_post_list)
+        self.edit_page.saveBtnClicked.connect(self.show_detail)
+        self.edit_page.cancelBtnClicked.connect(self.show_detail)
 
         self.create_page.saveBtnClicked.connect(self.update_post_list)
         self.create_page.saveBtnClicked.connect(self.show_detail)

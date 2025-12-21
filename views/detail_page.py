@@ -1,9 +1,10 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTextBrowser, QPushButton, QMessageBox
 from PySide6.QtGui import QFont
+from PySide6.QtWidgets import (QHBoxLayout, QLabel, QMessageBox, QPushButton,
+                               QTextBrowser, QVBoxLayout, QWidget)
 
-from utils.date_converter import date_converter
 from const.constant import FONT
+from utils.date_converter import date_converter
 
 
 class DetailPage(QWidget):
@@ -20,7 +21,7 @@ class DetailPage(QWidget):
 
     def load(self, post_id):
         self.post = self.db.get_post(post_id)
-        self.update_ui()
+        self.set_init_data()
 
     def init_ui(self):
         self.back_btn = QPushButton("목록")
@@ -57,6 +58,19 @@ class DetailPage(QWidget):
         layout.addLayout(date_layout)
         layout.addWidget(self.content)
 
+    def set_init_data(self):
+        if self.post:
+            self.title.setText(self.post.title)
+            self.author.setText(self.post.author)
+            self.date.setText(f"작성일: {date_converter(self.post.created_at)}")
+            self.content.setText(self.post.content)
+
+            if self.post.updated_at is not None:
+                self.updated_date.setText(f"수정일: {date_converter(self.post.updated_at)}")
+                self.updated_date.show()
+            else:
+                self.updated_date.hide()
+
     def on_edit_clicked(self):
         if not self.post:
             return
@@ -73,13 +87,3 @@ class DetailPage(QWidget):
         if reply == QMessageBox.Yes:
             self.db.delete_post(self.post.id)
             self.postDeleted.emit(self.post.id)
-
-    def update_ui(self):
-        if self.post:
-            self.title.setText(self.post.title)
-            self.author.setText(self.post.author)
-            self.date.setText(date_converter(self.post.created_at))
-            self.content.setText(self.post.content)
-
-            if self.post.updated_at is not None:
-                self.updated_date.setText(date_converter(self.post.updated_at))
