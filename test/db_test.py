@@ -65,3 +65,14 @@ class TestDBManager:
         assert post is not None
         assert post.title == "test_new"
         assert post.content == "test content_new"
+
+    def test_delete_post(self, db):
+        title = "test"
+        author = "author"
+        content = "test content"
+
+        post_id = db.create_post(title, content, author)
+        db.delete_post(post_id)
+        post = db.get_post(post_id)
+
+        assert post is None
