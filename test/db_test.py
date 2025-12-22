@@ -20,7 +20,7 @@ class TestDBManager:
         assert post_id > 0
 
     def test_get_post(self, db):
-        title = "test2"
+        title = "test"
         author = "author"
         content = "test content"
 
@@ -28,6 +28,23 @@ class TestDBManager:
         post = db.get_post(post_id)
 
         assert post is not None
-        assert post.title == "test2"
+        assert post.title == "test"
         assert post.author == "author"
         assert post.content == "test content"
+
+    def test_get_posts(self, db):
+        sample_data = [
+            ("test1", "test_content", "test_user1"),
+            ("test2", "test_content", "test_user2"),
+            ("test3", "test_content", "test_user3"),
+            ("test4", "test_content", "test_user4"),
+        ]
+
+        for data in sample_data:
+            db.create_post(data[0], data[1], data[2])
+
+        posts = db.get_posts()
+
+        assert len(posts) == 4
+        assert posts[0].title == "test1"
+        assert posts[3].title == "test4"
