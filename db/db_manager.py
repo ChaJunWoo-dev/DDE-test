@@ -4,8 +4,8 @@ from models.post import Post
 
 
 class DBManager:
-    def __init__(self):
-        self.conn = sqlite3.connect("../board.db")
+    def __init__(self, db_path="./board.db"):
+        self.conn = sqlite3.connect(db_path)
         self._create_table()
 
     def _create_table(self):
